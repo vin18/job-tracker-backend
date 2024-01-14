@@ -12,7 +12,7 @@ export class JobRoute implements Routes {
   constructor() {
     this.initializeRoutes();
   }
-  
+
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.job.getJobs);
     this.router.post(`${this.path}`, ValidationMiddleware(CreateJobDto), this.job.createJob);

@@ -69,10 +69,13 @@ export class UserController {
       const findAllUsersData: User[] = await this.user.findAllUser();
       const findAllJobsData: Job[] = await this.jobs.findAllJobs();
 
-      res.status(200).json({ data: {
-        users: findAllUsersData,
-        jobs: findAllJobsData
-      }, message: 'findAll' });
+      res.status(200).json({
+        data: {
+          users: findAllUsersData,
+          jobs: findAllJobsData,
+        },
+        message: 'findAll',
+      });
     } catch (error) {
       next(error);
     }

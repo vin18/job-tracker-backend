@@ -1,4 +1,3 @@
-import { hash } from 'bcrypt';
 import { Service } from 'typedi';
 import { HttpException } from '@exceptions/HttpException';
 import { JobModel } from '@/models/jobs.model';
@@ -28,8 +27,8 @@ export class JobService {
 
   public async updateJob(jobId: string, jobData: Job): Promise<Job> {
     if (jobData.company) {
-        const findJob: Job = await JobModel.findOne({ company: jobData.company, position: jobData.position });
-        if (findJob) throw new HttpException(409, `Job with ${jobData.company} and ${jobData.position} already exists`);
+      const findJob: Job = await JobModel.findOne({ company: jobData.company, position: jobData.position });
+      if (findJob) throw new HttpException(409, `Job with ${jobData.company} and ${jobData.position} already exists`);
     }
 
     const updateJobById: Job = await JobModel.findByIdAndUpdate(jobId, { jobData });

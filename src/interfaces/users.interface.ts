@@ -8,5 +8,5 @@ export interface User {
 
 export enum USER_TYPE {
   USER = 'user',
-  ADMIN = 'admin'
+  ADMIN = 'admin',
 }

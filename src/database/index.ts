@@ -3,7 +3,7 @@ import { NODE_ENV, DB_URI } from '@config';
 
 export const dbConnection = async () => {
   const dbConfig = {
-    url: DB_URI
+    url: DB_URI,
   };
 
   if (NODE_ENV !== 'production') {
@@ -11,4 +11,4 @@ export const dbConnection = async () => {
   }
 
   await connect(dbConfig.url);
-}
+};

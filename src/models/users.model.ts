@@ -4,7 +4,7 @@ import { USER_TYPE, User } from '@interfaces/users.interface';
 const UserSchema: Schema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
@@ -18,8 +18,8 @@ const UserSchema: Schema = new Schema({
   role: {
     type: String,
     enum: Object.values(USER_TYPE),
-    default: USER_TYPE.USER
-  }
+    default: USER_TYPE.USER,
+  },
 });
 
 export const UserModel = model<User & Document>('User', UserSchema);
