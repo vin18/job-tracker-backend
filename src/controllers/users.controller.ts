@@ -2,9 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
 import { User } from '@interfaces/users.interface';
 import { UserService } from '@services/users.service';
+import { Job } from '@/interfaces/jobs.interface';
+import { JobService } from '@/services/jobs.service';
 
 export class UserController {
   public user = Container.get(UserService);
+  public jobs = Container.get(JobService);
 
   public getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -56,6 +59,20 @@ export class UserController {
       const deleteUserData: User = await this.user.deleteUser(userId);
 
       res.status(200).json({ data: deleteUserData, message: 'deleted' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public adminStats = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const findAllUsersData: User[] = await this.user.findAllUser();
+      const findAllJobsData: Job[] = await this.jobs.findAllJobs();
+
+      res.status(200).json({ data: {
+        users: findAllUsersData,
+        jobs: findAllJobsData
+      }, message: 'findAll' });
     } catch (error) {
       next(error);
     }

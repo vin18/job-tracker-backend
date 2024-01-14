@@ -1,11 +1,13 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, RequestHandler, Response } from 'express';
 import { verify } from 'jsonwebtoken';
+import { Request } from 'express';
 import { SECRET_KEY } from '@config';
-import { HttpException } from '@exceptions/httpException';
+import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, RequestWithUser } from '@interfaces/auth.interface';
 import { UserModel } from '@models/users.model';
+import { USER_TYPE } from '@/interfaces/users.interface';
 
-const getAuthorization = (req) => {
+const getAuthorization = (req: RequestWithUser) => {
   const coockie = req.cookies['Authorization'];
   if (coockie) return coockie;
 
@@ -37,3 +39,11 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
   }
 };
 
+export const authorizePermissions = (role: string) => {
+  return (req: Request, res: Response, next: NextFunction) => {    
+    if (req.user.role !== role) {
+      throw new HttpException(403, 'Unauthorized to access this route');
+    }
+    next();
+  };
+}
