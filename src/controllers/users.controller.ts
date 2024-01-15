@@ -4,6 +4,7 @@ import { User } from '@interfaces/users.interface';
 import { UserService } from '@services/users.service';
 import { Job } from '@/interfaces/jobs.interface';
 import { JobService } from '@/services/jobs.service';
+import { logger } from '@/utils/logger';
 
 export class UserController {
   public user = Container.get(UserService);
@@ -19,12 +20,12 @@ export class UserController {
     }
   };
 
-  public getUserById = async (req: Request, res: Response, next: NextFunction) => {
+  public getLoggedInUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId: string = req.params.id;
-      const findOneUserData: User = await this.user.findUserById(userId);
+      const userId: string = req.user._id;
+      const findLoggedInUserData: User = await this.user.findUserById(userId);
 
-      res.status(200).json({ data: findOneUserData, message: 'findOne' });
+      res.status(200).json({ data: findLoggedInUserData, message: 'Get logged in user' });
     } catch (error) {
       next(error);
     }
@@ -47,7 +48,7 @@ export class UserController {
       const userData: User = req.body;
       const updateUserData: User = await this.user.updateUser(userId, userData);
 
-      res.status(200).json({ data: updateUserData, message: 'updated' });
+      res.status(200).json({ data: updateUserData, message: 'Updated user profile' });
     } catch (error) {
       next(error);
     }

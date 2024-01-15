@@ -12,7 +12,7 @@ export class AuthController {
       const userData: User = req.body;
       const signUpUserData: User = await this.authController.signup(userData);
 
-      res.status(201).json({ data: signUpUserData, message: 'signup' });
+      res.status(201).json({ data: signUpUserData, message: 'User signed up' });
     } catch (error) {
       next(error);
     }
@@ -24,7 +24,7 @@ export class AuthController {
       const { cookie, findUser } = await this.authController.login(userData);
 
       res.setHeader('Set-Cookie', [cookie]);
-      res.status(200).json({ data: findUser, message: 'login' });
+      res.status(200).json({ data: findUser, message: 'User logged in' });
     } catch (error) {
       next(error);
     }
@@ -36,7 +36,7 @@ export class AuthController {
       const logOutUserData: User = await this.authController.logout(userData);
 
       res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-      res.status(200).json({ data: logOutUserData, message: 'logout' });
+      res.status(200).json({ data: logOutUserData, message: 'User logged out' });
     } catch (error) {
       next(error);
     }

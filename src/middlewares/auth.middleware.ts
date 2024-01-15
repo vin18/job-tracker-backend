@@ -28,20 +28,20 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
         req.user = findUser;
         next();
       } else {
-        next(new HttpException(401, 'Wrong authentication token'));
+        next(new HttpException(401, 'Invalid login'));
       }
     } else {
-      next(new HttpException(404, 'Authentication token missing'));
+      next(new HttpException(404, 'Please login to continue!'));
     }
   } catch (error) {
-    next(new HttpException(401, 'Wrong authentication token'));
+      next(new HttpException(401, 'Invalid login'));
   }
 };
 
 export const authorizePermissions = (role: string) => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (req.user.role !== role) {
-      throw new HttpException(403, 'Unauthorized to access this route');
+      throw new HttpException(403, 'You are unauthorized to access this route');
     }
     next();
   };

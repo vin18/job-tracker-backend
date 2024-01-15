@@ -18,7 +18,7 @@ export class JobRoute implements Routes {
     this.router.post(`${this.path}`, ValidationMiddleware(CreateJobDto), this.job.createJob);
 
     this.router.get(`${this.path}/:id`, this.job.getJobById);
-    this.router.put(`${this.path}/:id`, ValidationMiddleware(CreateJobDto, true), this.job.updateJob);
+    this.router.patch(`${this.path}/:id`, ValidationMiddleware(CreateJobDto, true), this.job.updateJob);
     this.router.delete(`${this.path}/:id`, this.job.deleteJob);
   }
 }
