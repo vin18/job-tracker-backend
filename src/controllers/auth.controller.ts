@@ -3,6 +3,7 @@ import { Container } from 'typedi';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import { AuthService } from '@services/auth.service';
+import { NODE_ENV, EXPIRES_IN } from '@/config';
 
 export class AuthController {
   public authController = Container.get(AuthService);
@@ -23,7 +24,13 @@ export class AuthController {
       const userData: User = req.body;
       const { cookie, findUser } = await this.authController.login(userData);
 
-      res.setHeader('Set-Cookie', [cookie]);
+      const oneDay = 1000 * 60 * 60 * 24;
+      res.cookie('token', cookie, {
+        httpOnly: true,
+        secure: NODE_ENV === 'production',
+        expires: new Date(Date.now() + parseInt(EXPIRES_IN) * oneDay),
+      });
+
       res.status(200).json({ data: findUser, message: 'User logged in' });
     } catch (error) {
       next(error);
